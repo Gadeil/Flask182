@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {%with mensaje = get_flashed_messages()%}
+      {% if mensajes %}
+        {% for msj in mensajes %}
+          <h3> {{ msj }} </h3>
+        {%endfor%}
+      {%endif%}
+    {%endwith%}
+
+    <br>
+    <br>
+    <h1><center>Gestion de albums</center></h1>
+    <br>
+
+    <form action="/guardar" method="POST"><center>
+
+        <input type="text" name="txtTitulo" placeholder="Escribe titulo">
+        <input type="text" name="txtArtista" placeholder="Escribe artista">
+        <input type="Date" name="txtAnio" placeholder="Escribe anio">
+         
+        <br>
+        <button type="submit">Guardar</button>
+
+    </center></form>
+
+    <br>
+    <br>
+    <center><h1>Albums Guardados</h1></center><h1>
+    <br>
+
+    <center>
+      <table>
+       <thead>
+         <tr>
+           <td>ID:</td>
+           <td>Nombre:</td>
+           <td>Artista:</td>
+           <td>Año de Publicacion:</td>
+         </tr>
+       </thead>
+       <tbody>
+        {%for alb in listAlbums%} 
+        <tr>
+          <td>{{ ald.0 }}</td>
+          <td>{{ ald.1 }}</td>
+          <td>{{ ald.2 }}</td>
+          <td>{{ ald.3 }}</td>
+        </tr> 
+        <td>
+          <a href="#"> Editar </a>
+          <a href="#"> Eliminar </a>
+        </td>
+        {%endfor%}
+       </tbody>
+
+     </table>
+    </center>
+
+
+
+</body>
+</html>
