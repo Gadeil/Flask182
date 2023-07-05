@@ -25,10 +25,7 @@ def index():
     curSelect= mysql.connection.cursor()
     curSelect.execute('select * from albums')
     consulta= curSelect.fetchall()
-    #print(consulta)
-    
-    return render_template('index.html',listAlbums= consulta)
-
+    print
 
 # La ruta ocupa de una funcion para funcionar 
 def index():
@@ -62,4 +59,29 @@ def eliminar():
 if __name__=='__main__':
     app.run(port=5000, debug=True)
     
+@app.route('/editar/<id>')
+def editar(id):
+    cureditar= mysql.connection.cursor()
+    cureditar.execute('select * from albums where id = %s', (id,))
+    consulID= cureditar.fetchone()
     
+    #redirecionamos para editar Album de html
+    return render_template('EditarAlbum.html', album= consulID)
+    
+
+@app.route('/actualizar/<id>', methods=['POST'])
+
+def actualizar(id):
+    
+    if request.method == 'POST':
+        
+        Vtitulo= request.form['txtTitulo']
+        Vartista= request.form['txtArtista']
+        Vanio= request.form['txtAnio']
+        
+        curAct= mysql.connection.cursor()
+        curAct.execute('update albums set titulo=%s, artista=%s, anio=%s where id=%s', (Vtitulo, Vartista, Vanio, id,))
+        mysql.connection.commit()
+        
+        flash('Album Actualizado en BD :)')
+    return redirect(url_for('index'))    
